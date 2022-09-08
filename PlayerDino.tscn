@@ -4,7 +4,7 @@
 [ext_resource path="res://PlayerDino.gd" type="Script" id=2]
 
 [sub_resource type="PhysicsMaterial" id=44]
-friction = 0.64
+friction = 0.6
 rough = true
 bounce = 0.05
 
@@ -459,10 +459,16 @@ graph_offset = Vector2( -94, -43 )
 extents = Vector2( 19, 9.5 )
 
 [node name="PlayerDino" type="RigidBody2D"]
-mass = 4.44388
+mode = 2
+mass = 2.67
 physics_material_override = SubResource( 44 )
+gravity_scale = 0.25
+contacts_reported = 1
+contact_monitor = true
 can_sleep = false
 script = ExtResource( 2 )
+jump_speed = 1000.0
+gravity = 2.5
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
