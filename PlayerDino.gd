@@ -10,9 +10,9 @@ var is_grounded := true
 const default_direction := 1
 var kick_position:= Vector2()
 var input_vector = Vector2()
-var is_kicking := false
-var is_headbutting := false
+
 var impulse := Vector2()
+var body_temp = null
 
 func _ready():
      update_animation_position(default_direction)
@@ -42,10 +42,10 @@ func _process(delta):
           
     if Input.is_action_just_pressed("ui_accept"):
         #anim_tree.get("parameters/playback").travel("Hurt") 
-        is_headbutting = true
+        _apply_hit_impulse(body_temp,impulse)    
         anim_tree.get("parameters/playback").travel("Headbutt")    
     if Input.is_action_just_pressed("ui_down"):
-        is_kicking = true
+        _apply_hit_impulse(body_temp,impulse)    
         anim_tree.get("parameters/playback").travel("Kick")
     
     apply_impulse(Vector2(),input_vector*speed)
@@ -60,32 +60,28 @@ func update_animation_position(direction):
 func _integrate_forces(state):
     is_grounded = state.get_contact_count() > 0 and int(state.get_contact_collider_position(0).y) >= int(global_position.y)
  
-func _stop_kick():
-    is_kicking = false
 
-    
-func _stop_headbutt():
-    is_headbutting = false   
 
- 
     
 func _on_HurtboxKick_body_entered(body):
     impulse.y = -1
-  
-    if is_kicking:
-        print('kiki')
-        impulse.y = -1
-        _apply_hit_impulse(body,impulse)
+    body_temp = body
+
         
 func _on_HurtboxHead_body_entered(body):
-    impulse.y = 1 
-  
-    if is_headbutting:
-        print('heade')
-        _apply_hit_impulse(body,impulse)     
+    impulse.y = -0.5
+    body_temp = body
+
         
-func _apply_hit_impulse(body, impulse_hit):   
-    body.apply_central_impulse(impulse_hit*900)
+        
+func _apply_hit_impulse(body, impulse_hit):
+    if body:   
+        body.apply_central_impulse(impulse_hit*900)
 
 
+func _on_HurtboxKick_body_exited(body):
+    body_temp = null
 
+
+func _on_HurtboxHead_body_exited(body):
+    body_temp = null

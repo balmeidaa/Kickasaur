@@ -53,7 +53,7 @@ position = Vector2( -511, -66 )
 shape = SubResource( 3 )
 
 [node name="Box" parent="." instance=ExtResource( 2 )]
-position = Vector2( 166, -26 )
+position = Vector2( 49, 1 )
 
 [node name="Box4" parent="." instance=ExtResource( 2 )]
 position = Vector2( -183, -1 )
