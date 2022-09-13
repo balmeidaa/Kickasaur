@@ -7,41 +7,85 @@ export var gravity := 10.0
 var gravity_speed := 0.0
  
 var is_grounded := true
+const default_direction := 1
+var kick_position:= Vector2()
+var input_vector = Vector2()
+var is_kicking := false
+var is_headbutting := false
+var impulse := Vector2()
 
-func _process(delta):
-    var input_vector = Vector2.ZERO
+func _ready():
+     update_animation_position(default_direction)
     
-    input_vector.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * speed
+func _process(delta):
+    input_vector = Vector2.ZERO
+    
+    input_vector.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
 
     if input_vector == Vector2.ZERO:
         anim_tree.get("parameters/playback").travel("Idle")
     else:
-        anim_tree.set("parameters/Kick/blend_position", input_vector.x)
-        anim_tree.set("parameters/Headbutt/blend_position", input_vector.x) 
-        anim_tree.set("parameters/Idle/blend_position", input_vector.x)
-        anim_tree.set("parameters/Run/blend_position", input_vector.x)
+        impulse.x = input_vector.x
+        update_animation_position(input_vector.x)
         anim_tree.get("parameters/playback").travel("Run")
       
         
     if Input.is_action_just_pressed("ui_up") and is_grounded:
         gravity_speed = 0.0
         apply_central_impulse(Vector2.UP *jump_speed)
-        anim_tree.get("parameters/playback").travel("Headbutt")
+    
     elif not is_grounded:
 
         gravity_speed += gravity + delta
         apply_central_impulse(Vector2.DOWN*gravity_speed)
         
           
-        
+    if Input.is_action_just_pressed("ui_accept"):
+        #anim_tree.get("parameters/playback").travel("Hurt") 
+        is_headbutting = true
+        anim_tree.get("parameters/playback").travel("Headbutt")    
     if Input.is_action_just_pressed("ui_down"):
+        is_kicking = true
         anim_tree.get("parameters/playback").travel("Kick")
     
-    apply_impulse(Vector2(),input_vector)
+    apply_impulse(Vector2(),input_vector*speed)
         
-  
+func update_animation_position(direction):
+    anim_tree.set("parameters/Hurt/blend_position",direction)
+    anim_tree.set("parameters/Kick/blend_position",direction)
+    anim_tree.set("parameters/Headbutt/blend_position", direction) 
+    anim_tree.set("parameters/Idle/blend_position", direction)
+    anim_tree.set("parameters/Run/blend_position", direction)
 
 func _integrate_forces(state):
     is_grounded = state.get_contact_count() > 0 and int(state.get_contact_collider_position(0).y) >= int(global_position.y)
+ 
+func _stop_kick():
+    is_kicking = false
+
+    
+func _stop_headbutt():
+    is_headbutting = false   
+
+ 
+    
+func _on_HurtboxKick_body_entered(body):
+    impulse.y = -1
+  
+    if is_kicking:
+        print('kiki')
+        impulse.y = -1
+        _apply_hit_impulse(body,impulse)
+        
+func _on_HurtboxHead_body_entered(body):
+    impulse.y = 1 
+  
+    if is_headbutting:
+        print('heade')
+        _apply_hit_impulse(body,impulse)     
+        
+func _apply_hit_impulse(body, impulse_hit):   
+    body.apply_central_impulse(impulse_hit*900)
+
 
 

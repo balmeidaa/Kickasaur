@@ -45,6 +45,14 @@ ui_down={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Props"
+2d_physics/layer_3="Items"
+2d_physics/layer_4="Enemy"
+2d_physics/layer_5="Hazard"
+
 [physics]
 
 common/enable_pause_aware_picking=true
