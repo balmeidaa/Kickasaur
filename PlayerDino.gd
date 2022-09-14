@@ -2,9 +2,10 @@ extends RigidBody2D
 
 onready var anim_tree := $AnimationTree
 export var speed := 50.0
-export var jump_speed := 1200.0
-export var gravity := 10.0
+var jump_speed := 700.0
+var gravity := 1.0
 var gravity_speed := 0.0
+const gravity_speed_default := 40
  
 var is_grounded := true
 const default_direction := 1
@@ -31,11 +32,11 @@ func _process(delta):
       
         
     if Input.is_action_just_pressed("ui_up") and is_grounded:
-        gravity_speed = 0.0
+        gravity_speed = gravity_speed_default
         apply_central_impulse(Vector2.UP *jump_speed)
     
     elif not is_grounded:
-
+        
         gravity_speed += gravity + delta
         apply_central_impulse(Vector2.DOWN*gravity_speed)
         
@@ -59,7 +60,8 @@ func update_animation_position(direction):
 
 func _integrate_forces(state):
     is_grounded = state.get_contact_count() > 0 and int(state.get_contact_collider_position(0).y) >= int(global_position.y)
- 
+    if is_grounded:
+        gravity_speed = gravity_speed_default
 
 
     
@@ -85,3 +87,4 @@ func _on_HurtboxKick_body_exited(body):
 
 func _on_HurtboxHead_body_exited(body):
     body_temp = null
+#agregar interaccion con varios cuerpos sim

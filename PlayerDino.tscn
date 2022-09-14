@@ -544,22 +544,19 @@ graph_offset = Vector2( -421, -93 )
 [node name="PlayerDino" type="RigidBody2D" groups=["Player"]]
 collision_mask = 30
 mode = 2
-mass = 2.67
+mass = 1.1
 physics_material_override = ExtResource( 3 )
-gravity_scale = 0.25
 contacts_reported = 1
 contact_monitor = true
 can_sleep = false
 linear_damp = 3.0
 script = ExtResource( 2 )
-jump_speed = 1000.0
-gravity = 2.5
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 24
-frame = 2
+frame = 7
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2( 2, 1 )
