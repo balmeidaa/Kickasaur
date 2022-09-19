@@ -14,6 +14,10 @@ config/name="Kick-A-Saur"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+EventHandler="*res://EventHandler.gd"
+
 [input]
 
 ui_left={

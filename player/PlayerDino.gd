@@ -5,7 +5,8 @@ export var speed := 50.0
 var jump_speed := 700.0
 var gravity := 1.0
 var gravity_speed := 0.0
-const gravity_speed_default := 40
+var lives := 3
+const gravity_speed_default := 35
  
 var is_grounded := true
 const default_direction := 1
@@ -15,7 +16,10 @@ var input_vector = Vector2()
 var impulse := Vector2()
 var body_temp = null
 
+
+
 func _ready():
+     EventHandler.emit_health_starter(lives)
      update_animation_position(default_direction)
     
 func _process(delta):
@@ -77,7 +81,7 @@ func _on_HurtboxHead_body_entered(body):
         
         
 func _apply_hit_impulse(body, impulse_hit):
-    if body:   
+    if body and body.has_method("apply_central_impulse"):   
         body.apply_central_impulse(impulse_hit*900)
 
 
@@ -87,4 +91,14 @@ func _on_HurtboxKick_body_exited(body):
 
 func _on_HurtboxHead_body_exited(body):
     body_temp = null
-#agregar interaccion con varios cuerpos sim
+    
+func _damage(damage):
+    lives -= damage
+    anim_tree.get("parameters/playback").travel("Hurt")
+   
+    if lives <= 0:
+        EventHandler.emit_dead_signal()
+    else:
+        EventHandler.emit_health_signal(lives)
+        
+    

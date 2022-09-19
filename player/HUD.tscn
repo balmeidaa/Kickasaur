@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://player/LivesCon.gd" type="Script" id=2]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+rect_min_size = Vector2( 60, 80 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_right = 1024.0
+margin_bottom = 80.0
+
+[node name="LivesCon" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+margin_right = 510.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+script = ExtResource( 2 )
+full_heart = "res://Sprite/img/hp_full.png"
+half_heart = "res://Sprite/img/hp_half.png"
+empty_heart = "res://Sprite/img/hp_empty.png"
+
+[node name="ScoreCon" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/ScoreCon"]
+margin_left = 435.0
+margin_top = 33.0
+margin_right = 474.0
+margin_bottom = 47.0
+text = "Score:"
+
+[node name="ScoreCounter" type="Label" parent="MarginContainer/HBoxContainer/ScoreCon"]
+margin_left = 478.0
+margin_top = 33.0
+margin_right = 510.0
+margin_bottom = 47.0
+text = "0000"
