@@ -6,6 +6,7 @@ var jump_speed := 700.0
 var gravity := 1.0
 var gravity_speed := 0.0
 var lives := 3
+var arr_lives := []
 const gravity_speed_default := 35
  
 var is_grounded := true
@@ -19,8 +20,12 @@ var body_temp = null
 
 
 func _ready():
-     EventHandler.emit_health_starter(lives)
+    
      update_animation_position(default_direction)
+     fill_lives()
+     EventHandler.emit_health_starter(arr_lives)
+    
+    
     
 func _process(delta):
     input_vector = Vector2.ZERO
@@ -93,12 +98,42 @@ func _on_HurtboxHead_body_exited(body):
     body_temp = null
     
 func _damage(damage):
-    lives -= damage
+    
     anim_tree.get("parameters/playback").travel("Hurt")
    
-    if lives <= 0:
-        EventHandler.emit_dead_signal()
+    if is_player_alive():
+        decrease_life(damage)
+        EventHandler.emit_health_signal(arr_lives)  
     else:
-        EventHandler.emit_health_signal(lives)
+        EventHandler.emit_dead_signal()
         
+#2 = full heart
+#1 = half heart
+#0 = empty heart
+func decrease_life(value):
+    var diff = 0
+    var index = arr_lives.size()-1
     
+    while index >= 0:
+        
+        diff = arr_lives[index] - abs(value)
+        if diff >= 0:
+            arr_lives[index] = diff
+            break
+        else:
+            value = diff
+            arr_lives[index] = 0
+            
+        index -= 1
+
+func fill_lives():
+     for life in range(lives):
+         arr_lives.append(2)
+    
+func is_player_alive():
+    var life_counter = 0
+    
+    for life in arr_lives:
+        life_counter += life
+    
+    return (life_counter > 0)
