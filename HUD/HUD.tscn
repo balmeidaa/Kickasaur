@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://player/Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://player/LivesCon.gd" type="Script" id=2]
+[ext_resource path="res://Misc/Font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://HUD/LivesCon.gd" type="Script" id=2]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -30,7 +30,6 @@ half_heart = "res://Sprite/img/hp_half.png"
 empty_heart = "res://Sprite/img/hp_empty.png"
 
 [node name="ScoreCon" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
-anchor_bottom = 0.062
 margin_left = 492.0
 margin_right = 985.0
 margin_bottom = 80.0
@@ -41,18 +40,18 @@ alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/ScoreCon"]
 margin_left = 249.0
-margin_top = 18.0
+margin_top = 16.0
 margin_right = 385.0
-margin_bottom = 66.0
+margin_bottom = 64.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "Score:"
 
 [node name="ScoreCounter" type="Label" parent="MarginContainer/HBoxContainer/ScoreCon"]
 margin_left = 389.0
-margin_top = 18.0
+margin_top = 16.0
 margin_right = 493.0
-margin_bottom = 66.0
+margin_bottom = 64.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "0000"
