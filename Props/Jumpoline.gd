@@ -1,7 +1,9 @@
 extends StaticBody2D
 
-export var jumpoline_force := 800.0
+var jumpoline_force := 3.0
+const jump_spring := 1000
 onready var sprite := $AnimatedSprite as AnimatedSprite
+onready var boing := $BoingSound
 var jump_direction := Vector2()
 
 func _ready():
@@ -10,7 +12,8 @@ func _ready():
 
 func _on_JumpArea_body_entered(body):
      sprite.play("Spring") 
-     body.apply_central_impulse(jump_direction * jumpoline_force)
+     boing.play()
+     body.apply_central_impulse(jump_direction * jumpoline_force * jump_spring)
 
 
 func _on_AnimatedSprite_animation_finished():

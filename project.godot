@@ -66,6 +66,7 @@ ui_down={
 2d_physics/layer_3="Items"
 2d_physics/layer_4="Enemy"
 2d_physics/layer_5="Hazard"
+2d_physics/layer_6="Level"
 
 [physics]
 

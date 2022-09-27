@@ -1,8 +1,14 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Props/Jumpoline.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/img/trampoline1.png" type="Texture" id=2]
 [ext_resource path="res://Sprite/img/trampoline2.png" type="Texture" id=3]
+[ext_resource path="res://sfx/boing.wav" type="AudioStream" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 18, 18 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
@@ -14,21 +20,16 @@ flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 18, 18 )
 
-[sub_resource type="AtlasTexture" id=1]
-flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 18, 18 )
-
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 2 ), SubResource( 3 ) ],
-"loop": true,
-"name": "Spring",
-"speed": 15.0
-}, {
 "frames": [ SubResource( 1 ) ],
 "loop": false,
 "name": "Idle",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "Spring",
 "speed": 15.0
 } ]
 
@@ -42,7 +43,6 @@ extents = Vector2( 27, 7 )
 collision_layer = 2
 collision_mask = 11
 script = ExtResource( 1 )
-jumpoline_force = 2000.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 3, 3 )
@@ -68,6 +68,9 @@ angular_damp = 0.0
 position = Vector2( 0, -2 )
 shape = SubResource( 5 )
 one_way_collision_margin = 2.0
+
+[node name="BoingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="JumpArea" to="." method="_on_JumpArea_body_entered"]
