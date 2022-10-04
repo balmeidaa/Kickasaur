@@ -635,6 +635,8 @@ parameters/Run/blend_position = 0.0
 [node name="Hurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 
+[node name="Tween" type="Tween" parent="."]
+
 [connection signal="body_entered" from="HurtboxHead" to="." method="_on_HurtboxHead_body_entered"]
 [connection signal="body_exited" from="HurtboxHead" to="." method="_on_HurtboxHead_body_exited"]
 [connection signal="body_entered" from="HurtboxKick" to="." method="_on_HurtboxKick_body_entered"]

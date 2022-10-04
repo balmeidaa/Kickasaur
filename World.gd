@@ -1,6 +1,14 @@
 extends Node2D
 
+var game_over = false
+
 func _ready():
-    $Debugger.add_property($PlayerDino, "gravity_speed", "")
-    $Debugger.add_property($PlayerDino, "gravity_speed_default", "")
-    $Debugger.add_property($PlayerDino, "gravity", "")
+    EventHandler.connect("game_over", self, "game_over_wait")
+    $Debugger.add_property($PlayerDino, "arr_lives", "")
+
+ 
+
+func _input(event):
+    if game_over and (event is InputEventKey and event.pressed):
+        pass
+        #show menu
