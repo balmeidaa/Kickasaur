@@ -4,10 +4,16 @@ signal health_signal
 signal health_starter
 signal dead
 
+signal update_score
+
 signal new_message
 signal game_over
-signal continue_game
+signal new_game
 
+func new_game():
+     emit_signal("new_game")
+    
+    
 func game_over(score:int):
     emit_signal("game_over", score)
 

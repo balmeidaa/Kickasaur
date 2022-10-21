@@ -21,6 +21,12 @@ func _ready():
 func clear_text():
     label.text = ""
 
+func continue_new_game():
+     final_score.hide()
+     continue_message.hide()
+     label.hide()
+    
+
 func game_over_text(score:int):
     label.text = "Game Over"
     final_score.text = "Final Score: %s" % String(score)

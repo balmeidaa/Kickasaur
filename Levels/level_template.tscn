@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://TileMap.tres" type="TileSet" id=1]
+
+[node name="level_template" type="Node2D"]
+
+[node name="Ground" type="TileMap" parent="."]
+scale = Vector2( 3, 3 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 18, 18 )
+cell_quadrant_size = 18
+format = 1
+
+[node name="Danger" type="TileMap" parent="."]
+scale = Vector2( 3, 3 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 18, 18 )
+cell_quadrant_size = 18
+format = 1
+__meta__ = {
+"_editor_description_": "Contains water and lava"
+}
+
+[node name="Props" type="TileMap" parent="."]
+scale = Vector2( 3, 3 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 18, 18 )
+cell_quadrant_size = 18
+format = 1
+
+[node name="PlayerSpawn" type="Position2D" parent="."]
