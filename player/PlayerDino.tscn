@@ -1,9 +1,11 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://Sprite/DinoSprites - tard.png" type="Texture" id=1]
 [ext_resource path="res://player/PlayerDino.gd" type="Script" id=2]
 [ext_resource path="res://CharacterPhys.tres" type="PhysicsMaterial" id=3]
 [ext_resource path="res://sfx/hurt.wav" type="AudioStream" id=4]
+[ext_resource path="res://sfx/fall.wav" type="AudioStream" id=5]
+[ext_resource path="res://sfx/kick_swing.wav" type="AudioStream" id=6]
 
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 18, 23 )
@@ -280,6 +282,20 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( -8.688, 16.125 ) ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath("Kick")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "Kick_right"
@@ -321,6 +337,20 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( 8.688, 16.125 ) ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath("Kick")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [sub_resource type="Animation" id=9]
 length = 0.001
@@ -347,6 +377,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 14, -2.5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Kick:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -566,7 +608,7 @@ states/Run/node = SubResource( 31 )
 states/Run/position = Vector2( -163, 149 )
 transitions = [ "Idle", "Run", SubResource( 32 ), "Run", "Idle", SubResource( 33 ), "Idle", "Kick", SubResource( 35 ), "Idle", "Headbutt", SubResource( 36 ), "Headbutt", "Idle", SubResource( 37 ), "Kick", "Idle", SubResource( 43 ), "Idle", "Hurt", SubResource( 50 ), "Hurt", "Idle", SubResource( 51 ), "Run", "Hurt", SubResource( 52 ), "Headbutt", "Hurt", SubResource( 53 ), "Kick", "Hurt", SubResource( 54 ) ]
 start_node = "Idle"
-graph_offset = Vector2( -421, -93 )
+graph_offset = Vector2( -443, -73 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=22]
 
@@ -584,6 +626,7 @@ script = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
+flip_h = true
 hframes = 24
 frame = 7
 
@@ -604,7 +647,7 @@ collision_layer = 0
 collision_mask = 14
 
 [node name="Collision" type="CollisionShape2D" parent="HurtboxKick"]
-position = Vector2( 8.688, 16.125 )
+position = Vector2( -8.688, 16.125 )
 shape = SubResource( 13 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -627,17 +670,26 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 22 )
 parameters/Headbutt/blend_position = 0.0
-parameters/Hurt/blend_position = 0.0
-parameters/Idle/blend_position = 0.0
-parameters/Kick/blend_position = 0.0
-parameters/Run/blend_position = 0.0
+parameters/Hurt/blend_position = 0.998458
+parameters/Idle/blend_position = -1.0
+parameters/Kick/blend_position = -0.996916
+parameters/Run/blend_position = -1.0
+
+[node name="Tween" type="Tween" parent="."]
 
 [node name="Hurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 
-[node name="Tween" type="Tween" parent="."]
+[node name="Fall" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+pitch_scale = 0.92
+
+[node name="Kick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+pitch_scale = 1.53
 
 [connection signal="body_entered" from="HurtboxHead" to="." method="_on_HurtboxHead_body_entered"]
 [connection signal="body_exited" from="HurtboxHead" to="." method="_on_HurtboxHead_body_exited"]
 [connection signal="body_entered" from="HurtboxKick" to="." method="_on_HurtboxKick_body_entered"]
 [connection signal="body_exited" from="HurtboxKick" to="." method="_on_HurtboxKick_body_exited"]
+[connection signal="finished" from="Fall" to="." method="_on_Fall_finished"]

@@ -13,7 +13,7 @@ const fade_time := 0.5
 func _ready():
      EventHandler.connect("new_message", self, "change_label_text")
      EventHandler.connect("game_over", self, "game_over_text")
-     EventHandler.connect("clear", self, "clear_text")
+  #   EventHandler.connect("clear", self, "clear_text")
      final_score.hide()
      continue_message.hide()
 

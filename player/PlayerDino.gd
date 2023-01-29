@@ -29,6 +29,7 @@ func _ready():
      update_animation_position(default_direction)
      reset_player()
      EventHandler.emit_health_starter(arr_lives)
+     $Fall.set_autoplay(false)
     
     
     
@@ -52,8 +53,10 @@ func _process(delta):
             _apply_hit_impulse(body_temp,impulse)    
             anim_tree.get("parameters/playback").travel("Headbutt")    
         if Input.is_action_just_pressed("ui_down"):
-            _apply_hit_impulse(body_temp,impulse)    
             anim_tree.get("parameters/playback").travel("Kick")
+            _apply_hit_impulse(body_temp,impulse)    
+            
+    
     else:
         tween.interpolate_property(self, "modulate:a", 1.0, 0.1, fade_time, Tween.TRANS_QUINT, Tween.EASE_IN)
         tween.start()
@@ -152,3 +155,7 @@ func is_player_alive():
         life_counter += life
     
     return (life_counter > 0)
+
+
+func _on_Fall_finished():
+    pass # Replace with function body.

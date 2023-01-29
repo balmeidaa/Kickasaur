@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://TileMap.tres" type="TileSet" id=1]
+[ext_resource path="res://Levels/DangerScript.gd" type="Script" id=2]
+[ext_resource path="res://Levels/LevelScript.gd" type="Script" id=3]
 
 [node name="level_template" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="Ground" type="TileMap" parent="."]
 scale = Vector2( 3, 3 )
@@ -11,12 +14,13 @@ cell_size = Vector2( 18, 18 )
 cell_quadrant_size = 18
 format = 1
 
-[node name="Danger" type="TileMap" parent="."]
+[node name="Danger" type="TileMap" parent="." groups=["danger"]]
 scale = Vector2( 3, 3 )
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 18, 18 )
 cell_quadrant_size = 18
 format = 1
+script = ExtResource( 2 )
 __meta__ = {
 "_editor_description_": "Contains water and lava"
 }
