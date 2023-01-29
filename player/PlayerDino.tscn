@@ -626,7 +626,6 @@ script = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
-flip_h = true
 hframes = 24
 frame = 7
 
@@ -670,10 +669,10 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 22 )
 parameters/Headbutt/blend_position = 0.0
-parameters/Hurt/blend_position = 0.998458
-parameters/Idle/blend_position = -1.0
-parameters/Kick/blend_position = -0.996916
-parameters/Run/blend_position = -1.0
+parameters/Hurt/blend_position = 0.0
+parameters/Idle/blend_position = 0.0
+parameters/Kick/blend_position = 0.0
+parameters/Run/blend_position = 0.0
 
 [node name="Tween" type="Tween" parent="."]
 

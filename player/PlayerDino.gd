@@ -39,22 +39,28 @@ func _process(delta):
     if is_player_alive():
         input_vector.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
         
+        if input_vector == Vector2.ZERO:
+            anim_tree.get("parameters/playback").travel("Idle")
+        else:
+            impulse.x = input_vector.x
+            update_animation_position(input_vector.x)
+            anim_tree.get("parameters/playback").travel("Run")
+        
+        if Input.is_action_just_pressed("ui_accept"):
+            _apply_hit_impulse(body_temp,impulse)    
+            anim_tree.get("parameters/playback").travel("Headbutt")    
+        
+        if Input.is_action_just_pressed("ui_down"):
+            anim_tree.get("parameters/playback").travel("Kick")
+            _apply_hit_impulse(body_temp,impulse)   
+        
         if Input.is_action_just_pressed("ui_up") and is_grounded:
             _reset_gravity()
             apply_central_impulse(Vector2.UP *jump_speed)
-    
         elif not is_grounded:
             
             gravity_speed += gravity + delta
             apply_central_impulse(Vector2.DOWN*gravity_speed)
-            
-        if Input.is_action_just_pressed("ui_accept"):
-            #anim_tree.get("parameters/playback").travel("Hurt") 
-            _apply_hit_impulse(body_temp,impulse)    
-            anim_tree.get("parameters/playback").travel("Headbutt")    
-        if Input.is_action_just_pressed("ui_down"):
-            anim_tree.get("parameters/playback").travel("Kick")
-            _apply_hit_impulse(body_temp,impulse)    
             
     
     else:
@@ -64,12 +70,7 @@ func _process(delta):
         EventHandler.emit_dead_signal()
         self.set_process(false)
 
-    if input_vector == Vector2.ZERO:
-        anim_tree.get("parameters/playback").travel("Idle")
-    else:
-        impulse.x = input_vector.x
-        update_animation_position(input_vector.x)
-        anim_tree.get("parameters/playback").travel("Run")
+ 
       
         
   
@@ -116,7 +117,6 @@ func _on_HurtboxHead_body_exited(body):
     body_temp = null
     
 func _damage(damage):
-    
     anim_tree.get("parameters/playback").travel("Hurt")
    
     if is_player_alive():
