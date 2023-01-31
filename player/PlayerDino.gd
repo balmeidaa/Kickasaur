@@ -70,11 +70,6 @@ func _process(delta):
         EventHandler.emit_dead_signal()
         self.set_process(false)
 
- 
-      
-        
-  
-    
     apply_impulse(Vector2(),input_vector*speed)
         
 func update_animation_position(direction):
@@ -85,9 +80,12 @@ func update_animation_position(direction):
     anim_tree.set("parameters/Run/blend_position", direction)
 
 func _integrate_forces(state):
+    var prev_state_is_ground = is_grounded
     is_grounded = state.get_contact_count() > 0 and int(state.get_contact_collider_position(0).y) >= int(global_position.y)
     if is_grounded:
         _reset_gravity()
+        if not prev_state_is_ground:
+            $Fall.play()
 
 
 func _reset_gravity():
